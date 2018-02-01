@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System; // last changes made 1/31/18
 
 namespace Nile.host
 {
@@ -9,19 +9,22 @@ namespace Nile.host
             bool quit = false;
             while(!quit)
             {
+                //equality
+                bool isEqual = quit.Equals(10);
+
                 //displays menu
                 char choice = DisplayMenu();
 
                 //process menu selection
                 switch (choice)
                 {
-                    case 'l': // makes a lowercase l acceptable in place of uppercase L
+                    //case 'l': // makes a lowercase l acceptable in place of uppercase L
                     case 'L': ListProducts(); break;
 
-                    case 'a':
+                    //case 'a':
                     case 'A': AddProduct(); break;
 
-                    case 'q':
+                    //case 'q':
                     case 'Q': quit = true; break;
                 };
             };
@@ -49,12 +52,16 @@ namespace Nile.host
                 
                 if (Decimal.TryParse(value, out decimal result))
                 {
-                //if not required or not entry
-                if (result >= minValue)
-                    return result;
+                    //if not required or not entry
+                    if (result >= minValue)
+                        return result;
                 };
 
-                Console.WriteLine("Value must be >= {0}", minValue); // this is called string formatting
+                //formatting strings
+                //Console.WriteLine("Value must be >= {0}", minValue);
+                string msg = String.Format("Value must be >= {0}", minValue); // this takes a parameter, replaces specifiers (numbers) with the argument (minValue)
+                                                                    // and returns certain values
+                Console.WriteLine(msg); // this is called string formatting
             } while (true);
         }
 
@@ -84,7 +91,24 @@ namespace Nile.host
 
                 string input = Console.ReadLine();
 
-                if (input == "L" || input == "l") // when cases are updated the options here must be updated as well
+                input = input.Trim(); // trims down a string, accepts a list of characters like
+                                      //\n and \t and will trim them off the front and back
+                //input.ToLower();
+                input = input.ToUpper(); // strings are always immutable, this makes it so that
+                                         // the input can be used with the effects of input.ToUpper();
+
+                //padding
+                //input = input.PadLeft(10); useful for padding out tables
+
+                //starts with
+                //input.StartsWith(@"\"); // if true starts with return true, if false starts with return false
+                //input.EndsWith(@"\"); // none of these actually have to allocate memory and are very efficient
+
+                //substring
+                //string newValue = input.Substring(0, 10);
+
+                //if (input == "L")
+                if (String.Compare(input, "L") == 0) // when cases are updated the options here must be updated as well
                     return input[0];
                 else if (input == "A")
                     return input[0];
@@ -98,13 +122,32 @@ namespace Nile.host
         static void ListProducts()
         {
             //are there any products?
-            if (_name != null && _name != "")
+            //if (_name != null && _name != String.Empty)
+            //if (_name != null && _name.Length != 0)
+            //if (_name != null && _name != "")
+            if (!String.IsNullOrEmpty(_name))
             {
+                //display a product - name [$price]
+                //                    <description>
+                //string formatting
+                //var msg = String.Format("{0} [${1}]", _name, _price);
 
-                //display a product
-                Console.WriteLine(_name);
-                Console.WriteLine(_price);
-                Console.WriteLine(_description);
+                //string concatenation
+                //var msg = _name + " [$" + _price + "]";
+
+                //string concat part 2
+                //var msg = String.Concat(_name, " [$", _price, "]");
+
+                //string interpolation
+                string msg = $"{_name} [${_price}]"; // to use string interpolation you must make it clear
+                                          // that you are using it, put a $ before the quotes
+                                        // and you can use nearly anything you like for it
+                Console.WriteLine(msg); // msg is now replacing name and price
+                //Console.WriteLine(_name);
+                //Console.WriteLine(_price);
+
+                if (!String.IsNullOrEmpty(_description))
+                    Console.WriteLine(_description);
             } else
                 Console.WriteLine("No products");
         }
