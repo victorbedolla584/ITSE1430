@@ -50,7 +50,7 @@ namespace Nile.host
 
                 string value = Console.ReadLine();
                 
-                if (Decimal.TryParse(value, out decimal result))
+                if (Decimal.TryParse(value, out var result))
                 {
                     //if not required or not entry
                     if (result >= minValue)
@@ -206,6 +206,39 @@ namespace Nile.host
             x += 10;
             double ceiling = Math.Ceiling(rate);
             double floor = ceiling;
+        }
+
+        static void PlayingWithReferences ()
+        {
+            var message = "Hello";
+            string name = null;
+
+            name = new string('*', 10);//string has several overloads, most of which will never be used
+
+            object instance = message; // a type of message, a string
+
+            //Is operator, works on most types
+            if (instance is string)
+            {
+                string str2 = (string)instance;
+                Console.WriteLine(str2);
+            } else
+                Console.WriteLine("Not a string");
+
+            //As operator, works only with reference (?) types
+            string str = instance as string;
+            if (str != null)
+            {
+                Console.WriteLine(str);
+            } else
+                Console.WriteLine("Not a string");
+
+            //pattern matching
+            if (instance is string str3) // be careful what you name the variable
+            {
+                Console.WriteLine(str3);
+            } else
+                Console.WriteLine("Not a string");
         }
     }
 }
