@@ -16,5 +16,28 @@ namespace Nile.Windows
         {
             InitializeComponent();
         }
+
+        protected override void OnLoad( EventArgs e )
+        {
+            base.OnLoad(e);
+
+            //Product p; // shows the product automatically
+
+            var product = new Product();
+
+            var name = product.GetName(); //can now manipulate the value
+            //product.Name = "Product A";
+            product.SetName("Product A"); // sets a name for product A
+            //product.Description = "None";
+            var error = product.Validate();
+
+            var str = product.ToString();
+
+            var productB = new Product();
+            //productB.Name = "Product B";
+            product.SetName("Product B"); // sets a name for product B
+            //productB.Description = product.Description;
+            error = productB.Validate();
+        }
     }
 }
