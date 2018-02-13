@@ -11,18 +11,64 @@ namespace Nile
     {
         internal decimal DiscountPercentage = 0.10M;
 
+        public string Name
+        {
+            get { return _name ?? "";  } // value it returns is up to you so long as compiler runs the program
+            set { _name = value; }
+        }
+        public string Description
+        {
+            get { return _description ?? ""; } //with the addition of ?? "" it is gauranteed to never return null
+            set { _description = value ?? ""; }
+        }
+
+        //using auto property here
+        public decimal Price
+        {
+            //get { return _price; } // value it returns is up to you so long as compiler runs the program
+            //set { _price = value; }
+            get; set;
+        } = 0;
+        /*public int ShowingOffAccessibility
+        {
+            get { }
+            internal set { } // allows in most cases that anybody in the accessibiiy, must be wid eopen
+                    //getter & setter you're changing must be more more acccsible
+        }
+        */
+        public decimal ActualPrice
+        {
+            get
+            {
+                if (IsDiscontinued)
+                    return Price - (Price * DiscountPercentage);
+
+                return Price;
+            }
+
+            //set {}
+        }
+        public bool IsDiscontinued
+        {
+            get { return _isDiscontinued; } // value it returns is up to you so long as compiler runs the program
+            set { _isDiscontinued = value; }
+        }
+        /*
         /// <summary> Gets the product name. </summary>
         /// <param name="value"> The name. </param>
         public string GetName () // to expose functionality, use a function. These are methods if they are within a function.
         {
             return _name ?? ""; // this will never return a null as it forces you to use a method
         }
+        */
+        /*
         /// <summary> Sets the product name. </summary>
         /// <param name="value"> The name. </param>"
         public void SetName ( string value )
         {
             _name = value ?? "";
         }
+        */
 
         /// <summary> Validates the product. <summary>
         /// <returns> Error message, if any. </returns>
