@@ -36,6 +36,7 @@ namespace Nile.Windows
             // taken directly from ProductDetailForm.cs[Design]
 
 
+
             //return fro mform
             Product = product;
 
