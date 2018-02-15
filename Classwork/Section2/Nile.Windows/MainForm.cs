@@ -67,5 +67,52 @@ namespace Nile.Windows
 
             error = productB.Validate();
         }
+
+        private void _miProductAdd_Click( object sender, EventArgs e ) // add
+        {
+            //MessageBox.Show(this, "Not implemented", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var form = new ProductDetailForm();
+            form.Text = "Add Product";
+
+            //show form modally (or modelessly.) Takes ctrl
+            var result = form.ShowDialog(this);
+            if (result != DialogResult.OK)
+                return;
+            //TODO
+            _product = form.Product;
+        }
+
+        private void aboutToolStripMenuItem_Click( object sender, EventArgs e ) // about
+        {
+            MessageBox.Show(this, "Not implemented", "Help about", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
+
+        private void _miProductEdit_Click( object sender, EventArgs e ) // edit
+        {
+            MessageBox.Show(this, "Not implemented", "Product edit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
+
+        private void _miProductRemove_Click( object sender, EventArgs e ) // remove
+        {
+            if (!ShowConfirmation("Are you sure?", "Remove product")) // displays nothing after clicking no
+            return;
+            MessageBox.Show("Not implemented"); // if clicking yes when asked to be sure, this displays
+        }
+
+        private void _miExit_Click( object sender, EventArgs e ) // exit
+        {
+            MessageBox.Show(this, "Not implemented", "File Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
+        private void OnHelpAbout( object sender, EventArgs e )// About but did not appear ealier upon double-clicking
+        {
+            MessageBox.Show(this, "Not implemented", "About", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        }
+        private bool ShowConfirmation ( string message, string title )
+        {
+            return (MessageBox.Show(this, message, title,
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                == DialogResult.Yes); // if confirmation returns true then falsa
+        }
+        private Product _product;
     }
 }

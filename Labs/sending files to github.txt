@@ -1,0 +1,2 @@
+drag and drop folders into repo folders in school, can drag and drop lab folders into GitHub from school or home.
+If given options, the defaults are the ones to use.
