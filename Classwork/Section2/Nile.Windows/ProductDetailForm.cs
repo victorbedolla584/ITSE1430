@@ -18,7 +18,32 @@ namespace Nile.Windows
         }
 
         public Product Product { get; set; }
-        
+
+        protected override void OnLoad( EventArgs e )
+        {
+            base.OnLoad(e);
+            //load product
+            //
+            //request help here
+            //
+            if (Product != null) {
+                _name.Text = Product.Name; // they must be your field names
+                                           //System.NullReferenceException: 'Object reference not set to an instance of an object.'
+                _description.Text = Product.Description;
+                _price.Text = Product.Price.ToString();
+                _discontinued.Checked = Product.IsDiscontinued; // always remember to check your field names
+            }
+            /*
+             * var price2 = product.ActualPrice;
+
+            var error = product.Validate();
+
+            var str = product.ToString();
+
+            var productB = new Product();
+             */
+        }
+
         private void _buttonCancel_Click( object sender, EventArgs e ) // from cancel button
         {
         }
@@ -37,7 +62,7 @@ namespace Nile.Windows
 
 
 
-            //return fro mform
+            //return from form
             Product = product;
 
             DialogResult = DialogResult.OK;

@@ -55,6 +55,7 @@ namespace Nile.Windows
             product.Price = 50;
             product.IsDiscontinued = true;
             //product.ActualPrice = 10;
+                // these here were the naming issues, I think
             var price2 = product.ActualPrice;
 
             var error = product.Validate();
@@ -68,7 +69,7 @@ namespace Nile.Windows
             error = productB.Validate();
         }
 
-        private void _miProductAdd_Click( object sender, EventArgs e ) // add
+        private void _miProductAdd_Click( object sender, EventArgs e ) // your version of OnProductAdd
         {
             //MessageBox.Show(this, "Not implemented", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             var form = new ProductDetailForm();
@@ -82,30 +83,56 @@ namespace Nile.Windows
             _product = form.Product;
         }
 
-        private void aboutToolStripMenuItem_Click( object sender, EventArgs e ) // about
+        /*
+        // no name
+        private void OnFileExit ( object sender, EventArgs e ) // your version of OnProductExit
+        {
+            Close();
+        }
+        */
+
+        private void aboutToolStripMenuItem_Click( object sender, EventArgs e ) // ABOUT
         {
             MessageBox.Show(this, "Not implemented", "Help about", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
         }
 
-        private void _miProductEdit_Click( object sender, EventArgs e ) // edit
+        private void _miProductEdit_Click( object sender, EventArgs e ) // EDIT, your own OnProductEdit
         {
-            MessageBox.Show(this, "Not implemented", "Product edit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //MessageBox.Show(this, "Not implemented", "Product edit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (_product == null)
+                return;
+
+            var form = new ProductDetailForm();
+            form.Text = "Edit Product";
+            form.Product = _product;
+
+            //show form modally
+            var result = form.ShowDialog(this);
+            if (result != DialogResult.OK)
+                return;
+            //"editing" the product
+            _product = form.Product;
         }
 
-        private void _miProductRemove_Click( object sender, EventArgs e ) // remove
+        private void _miProductRemove_Click( object sender, EventArgs e ) // REMOVE
         {
             if (!ShowConfirmation("Are you sure?", "Remove product")) // displays nothing after clicking no
             return;
-            MessageBox.Show("Not implemented"); // if clicking yes when asked to be sure, this displays
+
+            //"deleting" the product
+            _product = null; // "removes" the product
         }
 
-        private void _miExit_Click( object sender, EventArgs e ) // exit
+        private void _miExit_Click( object sender, EventArgs e ) // EXIT
         {
-            MessageBox.Show(this, "Not implemented", "File Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            //MessageBox.Show(this, "Not implemented", "File Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            Close();
         }
-        private void OnHelpAbout( object sender, EventArgs e )// About but did not appear ealier upon double-clicking
+        private void OnHelpAbout( object sender, EventArgs e )// ABOUT but did not appear ealier upon double-clicking
         {
             MessageBox.Show(this, "Not implemented", "About", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            Close();
         }
         private bool ShowConfirmation ( string message, string title )
         {
