@@ -71,6 +71,7 @@ namespace Nile.Windows
 
         private void _miProductAdd_Click( object sender, EventArgs e ) // your version of OnProductAdd
         {
+            var button = sender as ToolStripMenuItem; // ?
             //MessageBox.Show(this, "Not implemented", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             var form = new ProductDetailForm();
             form.Text = "Add Product";
