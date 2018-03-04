@@ -1,0 +1,5 @@
+C:\Users\victor.bedolla584\Downloads\ITSE1430-master\ITSE1430-master\Classwork\Section2\Nile\bin\Debug\Nile.dll
+C:\Users\victor.bedolla584\Downloads\ITSE1430-master\ITSE1430-master\Classwork\Section2\Nile\bin\Debug\Nile.pdb
+C:\Users\victor.bedolla584\Downloads\ITSE1430-master\ITSE1430-master\Classwork\Section2\Nile\obj\Debug\Nile.csproj.CoreCompileInputs.cache
+C:\Users\victor.bedolla584\Downloads\ITSE1430-master\ITSE1430-master\Classwork\Section2\Nile\obj\Debug\Nile.dll
+C:\Users\victor.bedolla584\Downloads\ITSE1430-master\ITSE1430-master\Classwork\Section2\Nile\obj\Debug\Nile.pdb
