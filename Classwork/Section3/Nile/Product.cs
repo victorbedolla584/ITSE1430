@@ -4,6 +4,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace Nile
 {
     /// <summary>Provides information about a product.</summary>
-    public class Product
+    public class Product : IValidatableObject // resides in 
     {
         internal decimal DiscountPercentage = 0.10M;
 
@@ -83,7 +84,7 @@ namespace Nile
         //    _name = value ?? "";
         //}
 
-        /// <summary>Validates the product.</summary>
+        /* <summary>Validates the product.</summary>
         /// <returns>Error message, if any.</returns>
         public string Validate ()
         {
@@ -96,6 +97,23 @@ namespace Nile
                 return "Price must be >= 0";
 
             return "";
+        }*/
+
+        public IEnumerable<ValidationResult> Validate( ValidationContext validationContext )
+        {
+            var errors = new List<ValidationResult>();
+
+            //Name is required
+            if (String.IsNullOrEmpty(_name))
+                errors.Add(new ValidationResult("Name cannot be empty",
+                    new[] { "Name" })); // can also add to which property the interface goes with
+
+            //Price >= 0
+            if (Price < 0)
+                errors.Add(new ValidationResult("Price must be >= 0",
+                    new[] { "Price" }));
+
+            return errors;
         }
 
         private string _name;

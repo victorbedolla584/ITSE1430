@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,33 +11,66 @@ namespace Nile.Data.Memory
     public class MemeoryProductDatabase
     {
 
-        public MemoryProductDatabase()
+        public MemeoryProductDatabase()
         {
+            //array version
+            // var prods = new Product[]
+            /*
+            var prods = new [] // compiler can infer that it is a product array
+                {
+                    new Product(),
+                    new Product()
+                };
+                */
             //seed products
             //_products = new Product[25]; referencing somethign that
-                // doesn't exist will cause program to crash
+            // doesn't exist will cause program to crash
 
-            var product = new Product();
-            product.Id = _nextId++;
-            product.Name = "iPhone X";
-            product.IsDiscontinued = true;
-            product.Price = 1500;
+            _products = new List<Product>() {
+                new Product() {
+                Id = _nextId++,
+                Name = "iPhone X",
+                IsDiscontinued = true,
+                Price = 1500,
+            },
+                new Product() {
+                Id = _nextId++,
+                Name = "Windows Phone",
+                IsDiscontinued = true,
+                Price = 15,
+            },
+            new Product() {
+                Id = _nextId++,
+                Name = "Samsung S8",
+                IsDiscontinued = false,
+                Price = 800
+            }
+        };
+            /*
+            product = new Product() {
+                Id = _nextId++,
+                Name = "iPhone X",
+                IsDiscontinued = true,
+                Price = 1500,
+            };
             _products.Add(product);
 
-            var product = new Product();
-            product.Id = _nextId++;
-            product.Name = "Windows Phone";
-            product.IsDiscontinued = true;
-            product.Price = 15;
+            product = new Product() {
+                Id = _nextId++,
+                Name = "Windows Phone",
+                IsDiscontinued = true,
+                Price = 15,
+            };
             _products.Add(product);
 
-            var product = new Product();
-            product.Id = _nextId++;
-            product.Name = "Samsung S8";
-            product.IsDiscontinued = false;
-            product.Price = 800;
-            _products.Add(product);
-        }
+            product = new Product() { // var product = new Product();
+                Id = _nextId++,
+                Name = "Samsung S8",
+                IsDiscontinued = false,
+                Price = 800 // comma is always optional on the last one, mostly a time saver
+        };
+        _products.Add(product);
+        */
         public Product Add ( Product product, out string message )
         {
 
@@ -52,10 +86,14 @@ namespace Nile.Data.Memory
             };
 
             //Validate product
-            var error = product.Validate();
-            if (!String.IsNullOrEmpty(error))
+            var context = new ValidationContext(product);
+            var errors = new Collection<ValidationResults>();
+            var results = Validator.TryValidateObject(product, context, true); // this gives you back a list of the errors
+                //var errors = ObjectValidator.Validate(product);
+            //var error = product.Validate();
+            if (errors.Count() > 0)
             {
-                message = error;
+                    message = errors.ElementAt(0).ErrorMessage;
                 return null;
             };
 
