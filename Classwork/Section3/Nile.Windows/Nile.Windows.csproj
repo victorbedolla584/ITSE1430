@@ -32,9 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
@@ -86,7 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nile.Data.Memory\Nile.Data.Memory.csproj">
-      <Project>{4c84c716-ff26-4dde-b70b-49d191d5855f}</Project>
+      <Project>{f95ae9be-fb3f-41c6-b6fe-a7a4c32edeff}</Project>
       <Name>Nile.Data.Memory</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nile\Nile.csproj">

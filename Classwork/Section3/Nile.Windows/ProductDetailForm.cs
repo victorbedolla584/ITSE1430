@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Nile.Windows
 {
     /// <summary>Provides a form for adding/editing <see cref="Product"/>.</summary>
-    public /*abstract*/ partial class ProductDetailForm : Form
+    public partial class ProductDetailForm : Form
     {
         #region Construction
 
@@ -13,41 +14,25 @@ namespace Nile.Windows
             InitializeComponent();
         }
 
-        public ProductDetailForm( string title ) : this() //: base()
+        public ProductDetailForm( string title ) : this()
         {
-            //InitializeComponent();
-
             Text = title;
         }
 
         public ProductDetailForm( Product product ) :this("Edit Product")
         {
-            //InitializeComponent();
-            //Text = "Edit Product";
-
             Product = product;
         }
         #endregion
 
         /// <summary>Gets or sets the product being edited.</summary>
         public Product Product { get; set; }
-
-        //public abstract DialogResult ShowDialogEx();
-
-        //public virtual DialogResult ShowDialogEx ()
-        //{
-        //    return ShowDialog();
-        //}
-
+        
         protected override void OnLoad( EventArgs e )
         {
-            //Call base type
-            //OnLoad(e);
             base.OnLoad(e);
 
             //Load product
-            //Only use 'this' when you need the entire object
-            //if (this.Product != null)
             if (Product != null)
             {
                 _txtName.Text = Product.Name;
@@ -63,7 +48,6 @@ namespace Nile.Windows
 
         private void OnCancel( object sender, EventArgs e )
         {
-            //Don't need this method as DialogResult set on button
         }
 
         private void OnSave( object sender, EventArgs e )
@@ -72,7 +56,7 @@ namespace Nile.Windows
             if (!ValidateChildren())
                 return;
 
-            // Create product
+            // Create product - using object initializer syntax
             var product = new Product() {
                 Name = _txtName.Text,
                 Description = _txtDescription.Text,
@@ -80,20 +64,25 @@ namespace Nile.Windows
                 IsDiscontinued = _chkIsDiscontinued.Checked,
             };
 
-            //Validate
-            var message = product.Validate();
-            if (!String.IsNullOrEmpty(message))
+            //Validate product using IValidatableObject
+            //var message = product.Validate();
+            //if (!String.IsNullOrEmpty(message))
+            //{
+            //    DisplayError(message);
+            //    return;
+            //};
+            var errors = ObjectValidator.Validate(product);
+            if (errors.Count() > 0)
             {
-                DisplayError(message);
+                //Get first error
+                DisplayError(errors.ElementAt(0).ErrorMessage);
                 return;
-            };
-
+            };            
+            
             //Return from form
             Product = product;
             DialogResult = DialogResult.OK;
 
-            //Setting this to None will prevent close if needed
-            //DialogResult = DialogResult.None;
             Close();
         }
         #endregion
@@ -117,6 +106,7 @@ namespace Nile.Windows
 
             if (String.IsNullOrEmpty(textbox.Text))
             {
+
                 _errorProvider.SetError(textbox, "Name is required");
                 e.Cancel = true;
             } else
