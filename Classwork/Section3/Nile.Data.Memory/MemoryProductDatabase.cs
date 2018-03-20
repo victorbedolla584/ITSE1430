@@ -95,41 +95,9 @@ namespace Nile.Data.Memory
         /// Returns an error if product is null, invalid, product name
         /// already exists or if the product cannot be found.
         /// </remarks>
-        public Product Edit ( Product product, out string message )
+        public protected Product GetCore ( Product product, out string message )
         {
-            //Check for null
-            if (product == null)
-            {
-                message = "Product cannot be null.";
-                return null;
-            };
-
-            //Validate product using IValidatableObject
-            //var error = product.Validate();
-            var errors = ObjectValidator.Validate(product);
-            if (errors.Count() > 0)
-            {
-                //Get first error
-                message = errors.ElementAt(0).ErrorMessage;
-                return null;
-            };
-
-            //TODO: Verify unique product except current product
-            var existing = GetProductByName(product.Name); // pass the name of the product you're trying to add in
-            if (existing != null && existing.Id != product.Id)
-            {
-                message = "Product already exists.";
-                return null;
-            };
-
-            //Find existing
-            existing = existing ?? GetById(product.Id);
-            if (existing == null)
-            {
-                message = "Product not found.";
-                return null;
-            };
-
+            var existing = GetCore(product.Id);
             // Clone the object
             //_products[existingIndex] = Clone(product);
             Copy(existing, product);
@@ -166,16 +134,23 @@ namespace Nile.Data.Memory
 
         /// <summary>Removes a product.</summary>
         /// <param name="id">The product ID.</param>
-        public void Remove ( int id )
+        protected override void RemoveCore ( int id )
         {
-            //TODO: Return an error if id <= 0
-
-            if (id > 0)
-            {
-                var existing = GetById(id);
+                var existing = GetCore(id);
                 if (existing != null)
                     _products.Remove(existing);
+        }
+
+        private Product GetProductByNameCore( string name ) // foreach will be used for this
+        {
+            foreach (var product in _products) // basically copy/paste the code from GetById
+            {
+                //product.Name.CompareTo
+                if (String.Compare(product.Name, name, true) == 0) // this is not case sensitive and that must be changed using String.Compare
+                    return product;                         // or product.Name.CompareTo
             };
+
+            return null;
         }
 
         #region Private Members
@@ -218,18 +193,6 @@ namespace Nile.Data.Memory
             {
                 if (product.Id == id)
                     return product;
-            };
-
-            return null;
-        }
-
-        private Product GetProductByName ( string name ) // foreach will be used for this
-        {
-            foreach (var product in _products) // basically copy/paste the code from GetById
-            {
-                //product.Name.CompareTo
-                if (String.Compare(product.Name, name, true) == 0) // this is not case sensitive and that must be changed using String.Compare
-                    return product;                         // or product.Name.CompareTo
             };
 
             return null;
