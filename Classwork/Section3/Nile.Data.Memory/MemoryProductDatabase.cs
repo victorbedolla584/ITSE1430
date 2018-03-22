@@ -10,6 +10,7 @@ namespace Nile.Data.Memory
     /// <summary>Provides an in-memory product database.</summary>
     public class MemoryProductDatabase : ProductDatabase // now dervies from abstract class in ProductDatabase
     {
+        /*
         /// <summary>Initializes an instance of the <see cref="MemoryProductDatabase"/> class.</summary>
         public MemoryProductDatabase()
         {
@@ -74,7 +75,7 @@ namespace Nile.Data.Memory
             // Return a copy
             return product;
         }
-
+        */
         protected override Product GetCore( int id )
         {
             //for (var index = 0; index < _products.Length; ++index)

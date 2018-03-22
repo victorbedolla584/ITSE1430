@@ -20,18 +20,20 @@ namespace Nile.Data
             };
 
             //Validate product using IValidatableObject
-            //var error = product.Validate();
-            var errors = ObjectValidator.Validate(product);
+            var errors = product.Validate();
+            //var errors = ObjectValidator.Validate(product);
+            /*
             if (errors.Count() > 0)
             {
                 //Get first error
                 message = errors.ElementAt(0).ErrorMessage;
                 return null;
             };
+            */
 
             //Verify unique product, find a product by name
-            var existing = GetProductByName(product.Name); // pass the name of the product you're trying to add in
-            if (existing != null)
+            var error = errors.FirstOrDefault(); // pass the name of the product you're trying to add in
+            if (error != null)
             {
                 message = "Product already exists.";
                 return null;
